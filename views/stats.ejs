@@ -1,0 +1,69 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <title>Replicon Stats</title>
+<script>
+window.onload = function () {
+
+var chart = new CanvasJS.Chart("chartContainer", {
+	animationEnabled: true,
+	title:{
+		text: "Replicon Target - Achievement"
+	},
+	axisY: {
+		title: "Revenue",
+		titleFontColor: "#4F81BC",
+		lineColor: "#4F81BC",
+		labelFontColor: "#4F81BC",
+		tickColor: "#4F81BC"
+	},
+	toolTip: {
+		shared: true
+	},
+	legend: {
+		cursor:"pointer",
+		itemclick: toggleDataSeries
+	},
+	data: [{
+		type: "column",
+		name: "Target",
+		legendText: "Target",
+		showInLegend: true,
+		dataPoints:[
+      <% for(i=0;i<datas.labels.length; i = i + 2) {%>
+			{ label: "<%= datas.labels[i] %>",  y:<%= datas.labels[i+1].target  %>  },
+        <% } %>
+		]
+	},
+	{
+		type: "column",
+		name: "Achievement",
+		legendText: "Achievement",
+		showInLegend: true,
+		dataPoints:[
+      <% for(i=0;i<datas.labels.length; i = i + 2) {%>
+      { label: "<%= datas.labels[i] %>",  y:<%= datas.labels[i+1].achievement  %>  },
+      <% } %>
+		]
+	}]
+});
+chart.render();
+
+function toggleDataSeries(e) {
+	if (typeof(e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+		e.dataSeries.visible = false;
+	}
+	else {
+		e.dataSeries.visible = true;
+	}
+	chart.render();
+}
+
+}
+</script>
+</head>
+<body>
+<div id="chartContainer" style="height: 800px; width: 70%; border: 2px solid black; margin: 50px auto;"></div>
+<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+</body>
+</html>
